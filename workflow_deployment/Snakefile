@@ -1,0 +1,60 @@
+# Snakefile
+# Usage:
+#   snakemake -s workflow_deployment/Snakefile -n
+#   snakemake -s workflow_deployment/Snakefile --cores 8 --use-conda
+#   snakemake -s workflow_deployment/Snakefile --dag | dot -Tsvg > workflow_deployment/snake-flow.svg
+#   snakemake -s workflow_deployment/Snakefile --forceall --cores 8
+
+from pathlib import Path
+
+configfile: "workflow_deployment/deployment_config.yaml"
+
+TARGET = str(config["target"])
+DEPLOY_ROOT = Path("outputs") / "deployment" / TARGET
+LATEST_RUN = DEPLOY_ROOT / "latest_run.txt"
+CLUSTERED_FEATURES = DEPLOY_ROOT / "features" / "clustered_features_reduced.csv"
+SELECTION_FREQ = DEPLOY_ROOT / "selection" / "feature_frequency.csv"
+MODELS_SUMMARY = DEPLOY_ROOT / "models" / "models_summary.csv"
+ANALYSIS_SUMMARY = DEPLOY_ROOT / "analysis" / "training_fit_summary.csv"
+
+rule all:
+    input:
+        str(ANALYSIS_SUMMARY)
+
+rule prepare_features:
+    input:
+        config_path={workflow.configfiles[0]},
+    output:
+        latest_run=str(LATEST_RUN),
+        clustered=str(CLUSTERED_FEATURES),
+    shell:
+        "python scripts/deployment/prepare_features_and_clustering.py --config {input.config_path}"
+
+rule feature_selection:
+    input:
+        latest_run=str(LATEST_RUN),
+        clustered=str(CLUSTERED_FEATURES),
+        config_path={workflow.configfiles[0]},
+    output:
+        selection_freq=str(SELECTION_FREQ),
+    shell:
+        "python scripts/deployment/run_feature_selection.py --run_folder $(cat {input.latest_run}) --config {input.config_path}"
+
+rule build_models:
+    input:
+        latest_run=str(LATEST_RUN),
+        selection_freq=str(SELECTION_FREQ),
+        config_path={workflow.configfiles[0]},
+    output:
+        models_summary=str(MODELS_SUMMARY),
+    shell:
+        "python scripts/deployment/build_final_models.py --run_folder $(cat {input.latest_run}) --config {input.config_path}"
+
+rule analyze_training_fit:
+    input:
+        latest_run=str(LATEST_RUN),
+        models_summary=str(MODELS_SUMMARY),
+    output:
+        analysis_summary=str(ANALYSIS_SUMMARY),
+    shell:
+        "python scripts/deployment/analyze_training_fit.py --run_folder $(cat {input.latest_run})"

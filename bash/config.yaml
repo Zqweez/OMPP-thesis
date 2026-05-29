@@ -1,0 +1,31 @@
+amp_feature_path: data/APD6/amp_helices_features.csv
+amp_sequence_path: data/APD6/amp_helices.csv
+cluster_method: complete
+cluster_threshold: 0.95
+double_top_percent: 0.5
+feature_option: single
+final_model_names:
+- - ridge
+  - 100
+- - elasticnet
+  - 200
+- - random_forest
+  - 500
+- - gradient_boosted
+  - 500
+input_file: data/OMPP_new_master.csv
+make_global_cluster_plots: false
+max_cluster_size: 1
+n_jobs: auto
+num_outer_seeds: 4
+num_pyramid_seeds: 128
+perfect_corr_threshold: 1.0
+pyramid_model_name: ridge
+scale_target: false
+scoring_scheme: neg_mean_squared_error
+set_size: 20
+start_pyramid_seed: 42
+start_seed: 42
+target: pot
+top_percentage: 0.5
+variance_threshold: 1e-4

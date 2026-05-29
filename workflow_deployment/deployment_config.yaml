@@ -1,0 +1,86 @@
+# ================================================================
+# 1) Core input and target settings
+# ================================================================
+# Source table used by the deployment pipeline.
+input_file: data/OMPP_master_long.csv # data/OMPP_new_master.csv
+amp_sequence_path: data/APD6/amp_helices.csv
+amp_feature_path: data/APD6/amp_helices_features.csv
+
+# Target alias used in TARGET_MAPPING (for example: npn, mic, pot, disc, cyto, hemo).
+target: npn
+
+# ================================================================
+# 2) Feature clustering settings
+# ================================================================
+# Correlation threshold used when building feature clusters.
+cluster_threshold: 0.95
+
+# Linkage method for hierarchical clustering.
+cluster_method: complete
+
+# Maximum number of representatives to keep per feature cluster.
+max_cluster_size: 1
+
+# Drop near-constant features below this variance.
+variance_threshold: 1e-4
+
+# Threshold used to filter perfectly correlated features.
+perfect_corr_threshold: 1.0
+
+# If true, writes global clustering diagnostic plots in 00_features.
+make_global_cluster_plots: false
+
+
+# ================================================================
+# 3) Runtime and randomness settings
+# ================================================================
+# Random seed for model tuning and training.
+random_state: 42
+
+# Parallel workers for inner CV tuning.
+n_jobs: 8
+
+# ================================================================
+# 4) Feature-selection and model training settings
+# ================================================================
+# Feature-selection strategy: single or double.
+feature_option: single
+
+# Model used inside the pyramid selection stage.
+pyramid_model_name: ridge
+
+# Final models trained after feature selection.
+# Required format for each entry: [model_name, n_trials]
+# Example: [ridge, 100]
+final_model_names:
+  - [ridge, 200]
+  - [elasticnet, 300]
+  #- [random_forest, 500]
+  #- [gradient_boosted, 500]
+
+# Scikit-learn scoring key used during inner CV / Optuna tuning.
+scoring_scheme: neg_mean_squared_error
+
+# Fraction of features kept at each pyramid step.
+top_percentage: 0.5
+
+# For double pyramid: top fraction from stage 1 passed to stage 2.
+double_top_percent: 0.5
+
+# Approximate features per set in pyramid splitting.
+set_size: 20
+
+# Number of seeds used to aggregate pyramid feature selection.
+num_pyramid_seeds: 128
+
+# First pyramid seed value.
+start_pyramid_seed: 42
+
+# If true, scale target values during model training.
+scale_target: false
+
+# Number of top features to carry into final model training.
+top_n_features: 20
+
+# If true, skip Optuna and use default params for final models.
+use_default_params: false

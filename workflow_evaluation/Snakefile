@@ -1,0 +1,59 @@
+# Snakefile
+# Usage:
+#   snakemake -s workflow_evaluation/Snakefile -n
+#   snakemake -s workflow_evaluation/Snakefile --cores 8 --use-conda
+#   snakemake -s workflow_evaluation/Snakefile --dag | dot -Tsvg > workflow_evaluation/snake-flow.svg
+#   snakemake -s workflow_evaluation/Snakefile --forceall --cores 8
+
+from pathlib import Path
+from src.util.get_run_folder import build_evaluation_run_folder_from_config
+import sys
+
+configfile: "workflow_evaluation/evaluation_config.yaml"
+
+RUN_FOLDER = build_evaluation_run_folder_from_config(
+    config_path=str(workflow.configfiles[0]),
+    project_root=".",
+)
+
+RUN_FOLDER = str(RUN_FOLDER)
+
+MANIFEST = f"{RUN_FOLDER}/00_splits/manifest.csv"
+RUN_CONFIG = f"{RUN_FOLDER}/run_config.yaml"
+FOLD_DONE = f"{RUN_FOLDER}/01_evaluation/.done"
+MODEL_COMPARISON = f"{RUN_FOLDER}/02_analysis/model_comparison.csv"
+
+rule all:
+    input:
+        MODEL_COMPARISON
+
+rule prepare_splits:
+    output:
+        manifest=MANIFEST,
+        run_config=RUN_CONFIG,
+    shell:
+        "python scripts/evaluation/prepare_nested_cv_splits.py "
+        "--config \"{workflow.configfiles[0]}\" "
+        "--run_folder \"{RUN_FOLDER}\""
+
+rule run_outer_folds:
+    input:
+        manifest=MANIFEST,
+        run_config=RUN_CONFIG,
+    output:
+        done=FOLD_DONE,
+    shell:
+        "python scripts/evaluation/run_outer_fold_pipeline.py "
+        "--config \"{workflow.configfiles[0]}\" "
+        "--manifest \"{input.manifest}\" "
+        "--run_folder \"{RUN_FOLDER}\" && "
+        "touch \"{output.done}\""
+
+rule aggregate_results:
+    input:
+        done=FOLD_DONE,
+    output:
+        MODEL_COMPARISON,
+    shell:
+        "python scripts/evaluation/aggregate_evaluation_results.py "
+        "--run_folder \"{RUN_FOLDER}\" "

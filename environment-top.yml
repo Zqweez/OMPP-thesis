@@ -1,0 +1,30 @@
+name: masters
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - numpy=1.23
+  - beautifulsoup4
+  - requests
+  - lxml
+  - colorama
+  - scikit-learn
+  - modlamp
+  - matplotlib
+  - ipykernel
+  - jupyter
+  - peptides
+  - optuna
+  - seaborn
+  - openpyxl
+  - mdanalysis
+  - rdkit
+  - nglview
+  - py3dmol
+  - snakemake
+  - mordred
+  - nextflow
+  - pymol-open-source
+prefix: /Users/kasperstorck/miniconda3/envs/masters
