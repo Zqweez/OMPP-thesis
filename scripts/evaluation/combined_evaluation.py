@@ -9,42 +9,8 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.ticker import AutoMinorLocator, MaxNLocator
 
-REQUIRED_COLUMNS = [
-    "target",
-    "model",
-    "r2",
-    "r2_std",
-    "rmse",
-    "rmse_std",
-    "mae",
-    "mae_std",
-    "spearman",
-    "spearman_std",
-    "allfeats_r2",
-    "allfeats_r2_std",
-    "allfeats_rmse",
-    "allfeats_rmse_std",
-    "allfeats_mae",
-    "allfeats_mae_std",
-    "allfeats_spearman",
-    "allfeats_spearman_std",
-    "baseline_r2",
-    "baseline_r2_std",
-    "baseline_rmse",
-    "baseline_rmse_std",
-    "baseline_mae",
-    "baseline_mae_std",
-    "baseline_spearman",
-    "baseline_spearman_std",
-    "dummy_r2",
-    "dummy_r2_std",
-    "dummy_rmse",
-    "dummy_rmse_std",
-    "dummy_mae",
-    "dummy_mae_std",
-    "dummy_spearman",
-    "dummy_spearman_std",
-]
+from src.selection.shared import REQUIRED_COLUMNS
+
 
 MODEL_ORDER = ["ridge", "elasticnet", "random_forest", "gradient_boosted"]
 MODEL_LABELS = {

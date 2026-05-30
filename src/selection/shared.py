@@ -17,6 +17,43 @@ TARGET_MAPPING = {
     "hemo": "Hemolysis_Mean",
 }
 
+REQUIRED_COLUMNS = [
+    "target",
+    "model",
+    "r2",
+    "r2_std",
+    "rmse",
+    "rmse_std",
+    "mae",
+    "mae_std",
+    "spearman",
+    "spearman_std",
+    "allfeats_r2",
+    "allfeats_r2_std",
+    "allfeats_rmse",
+    "allfeats_rmse_std",
+    "allfeats_mae",
+    "allfeats_mae_std",
+    "allfeats_spearman",
+    "allfeats_spearman_std",
+    "baseline_r2",
+    "baseline_r2_std",
+    "baseline_rmse",
+    "baseline_rmse_std",
+    "baseline_mae",
+    "baseline_mae_std",
+    "baseline_spearman",
+    "baseline_spearman_std",
+    "dummy_r2",
+    "dummy_r2_std",
+    "dummy_rmse",
+    "dummy_rmse_std",
+    "dummy_mae",
+    "dummy_mae_std",
+    "dummy_spearman",
+    "dummy_spearman_std",
+]
+
 def compute_cv_folds(n_samples: int) -> Tuple[int, int]:
     if n_samples == 14:
         return 7, 6
