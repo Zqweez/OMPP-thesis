@@ -10,44 +10,7 @@ import pandas as pd
 from colorama import Fore, Style
 from scipy.stats import spearmanr
 
-from src.selection.shared import TARGET_MAPPING
-
-COMBINED_METRICS_COLUMNS = [
-    "target",
-    "model",
-    "r2",
-    "r2_std",
-    "rmse",
-    "rmse_std",
-    "mae",
-    "mae_std",
-    "spearman",
-    "spearman_std",
-    "allfeats_r2",
-    "allfeats_r2_std",
-    "allfeats_rmse",
-    "allfeats_rmse_std",
-    "allfeats_mae",
-    "allfeats_mae_std",
-    "allfeats_spearman",
-    "allfeats_spearman_std",
-    "baseline_r2",
-    "baseline_r2_std",
-    "baseline_rmse",
-    "baseline_rmse_std",
-    "baseline_mae",
-    "baseline_mae_std",
-    "baseline_spearman",
-    "baseline_spearman_std",
-    "dummy_r2",
-    "dummy_r2_std",
-    "dummy_rmse",
-    "dummy_rmse_std",
-    "dummy_mae",
-    "dummy_mae_std",
-    "dummy_spearman",
-    "dummy_spearman_std",
-]
+from src.selection.shared import TARGET_MAPPING, REQUIRED_COLUMNS
 
 MODEL_ORDER = ["ridge", "elasticnet", "random_forest", "gradient_boosted"]
 MODEL_DISPLAY_NAMES = {
@@ -115,7 +78,7 @@ def _canonical_model_key(model_name: str) -> str:
 
 
 def _empty_metrics_row(target_arg: str, model_name: str) -> dict[str, float | str]:
-    row: dict[str, float | str] = {column: float("nan") for column in COMBINED_METRICS_COLUMNS}
+    row: dict[str, float | str] = {column: float("nan") for column in REQUIRED_COLUMNS}
     row["target"] = target_arg
     row["model"] = model_name
     return row
@@ -465,7 +428,7 @@ def main(
             _apply_metrics(row, dummy_metrics, prefix="dummy")
             rows.append(row)
 
-        metrics_df = pd.DataFrame(rows, columns=COMBINED_METRICS_COLUMNS)
+        metrics_df = pd.DataFrame(rows, columns=REQUIRED_COLUMNS)
         metrics_path = output_root / "metrics" / f"{_slugify(target_arg)}" / f"evaluation_metrics_{_slugify(target_arg)}.csv"
         metrics_path.parent.mkdir(parents=True, exist_ok=True)
         metrics_df.to_csv(metrics_path, index=False)

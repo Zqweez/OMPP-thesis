@@ -85,18 +85,23 @@ Scripts are grouped by purpose. Most are CLI tools used by the Snakemake pipelin
 `make_baselines.py`
 
 - Notebook-style script that runs multiple baselines (all-features, clustered, simple feature baselines).
+- This script is a bit depricated its better to use make_baseline_metrics.py and then visualize the results using the combined_evaluation.py.
 
 `make_baseline_metrics.py`
 
 - Summarizes baseline results into evaluation metrics CSVs for comparison plots.
+- This is the way the baselines were computed for the thesis.
 
 `use_selected_features.py`
 
 - Runs baseline evaluation using a manual feature list CSV.
+- Used for manually selecting a set of features for a comparison.
 
 ---
 
 ## `additional/`
+
+Note that these scripts are more exploratory and not part of the main pipelines, but they can be useful for deeper analysis. However, they are not as polished, may require more manual setup, and may not be that well documented.
 
 `make-pca.py`
 

@@ -11,48 +11,10 @@ from colorama import Fore, Style
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from scipy.stats import spearmanr
 
-from src.selection.shared import save_json
+from src.selection.shared import save_json, REQUIRED_COLUMNS
 from src.visualization.plot_evaluation_pipeline import run_evaluation_plots, collect_final_selection_counts, load_run_settings
 
 OUTLIER_R2_THRESHOLD: float = -1000.0
-
-COMBINED_METRICS_COLUMNS = [
-    "target",
-    "model",
-    "r2",
-    "r2_std",
-    "rmse",
-    "rmse_std",
-    "mae",
-    "mae_std",
-    "spearman",
-    "spearman_std",
-    "allfeats_r2",
-    "allfeats_r2_std",
-    "allfeats_rmse",
-    "allfeats_rmse_std",
-    "allfeats_mae",
-    "allfeats_mae_std",
-    "allfeats_spearman",
-    "allfeats_spearman_std",
-    "baseline_r2",
-    "baseline_r2_std",
-    "baseline_rmse",
-    "baseline_rmse_std",
-    "baseline_mae",
-    "baseline_mae_std",
-    "baseline_spearman",
-    "baseline_spearman_std",
-    "dummy_r2",
-    "dummy_r2_std",
-    "dummy_rmse",
-    "dummy_rmse_std",
-    "dummy_mae",
-    "dummy_mae_std",
-    "dummy_spearman",
-    "dummy_spearman_std",
-]
-
 
 def _calc_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
     """Compute regression metrics for aggregated prediction tables."""
@@ -548,7 +510,7 @@ def main(*, run_folder: str) -> dict:
     )
     selection_df.to_csv(analysis_root / "final_selection_counts.csv", index=False)
 
-    combined_metrics_df = pd.DataFrame(combined_metric_rows, columns=COMBINED_METRICS_COLUMNS)
+    combined_metrics_df = pd.DataFrame(combined_metric_rows, columns=REQUIRED_COLUMNS)
     combined_metrics_path = analysis_root / f"evaluation_metrics_{target}.csv"
     combined_metrics_df.to_csv(combined_metrics_path, index=False)
 

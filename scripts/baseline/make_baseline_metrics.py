@@ -11,46 +11,9 @@ from scipy.stats import spearmanr
 
 from src.features.compute import compute_features_for_sequences
 from src.features.load_features import load_and_prepare_data
-from src.selection.shared import TARGET_MAPPING, generate_seed_list
+from src.selection.shared import TARGET_MAPPING, generate_seed_list, REQUIRED_COLUMNS
 from src.util.config_loader import load_evaluation_config
 from scripts.baseline.baseline_functions import run_baseline_1_parallel, run_baseline_4
-
-REQUIRED_COLUMNS = [
-    "target",
-    "model",
-    "r2",
-    "r2_std",
-    "rmse",
-    "rmse_std",
-    "mae",
-    "mae_std",
-    "spearman",
-    "spearman_std",
-    "allfeats_r2",
-    "allfeats_r2_std",
-    "allfeats_rmse",
-    "allfeats_rmse_std",
-    "allfeats_mae",
-    "allfeats_mae_std",
-    "allfeats_spearman",
-    "allfeats_spearman_std",
-    "baseline_r2",
-    "baseline_r2_std",
-    "baseline_rmse",
-    "baseline_rmse_std",
-    "baseline_mae",
-    "baseline_mae_std",
-    "baseline_spearman",
-    "baseline_spearman_std",
-    "dummy_r2",
-    "dummy_r2_std",
-    "dummy_rmse",
-    "dummy_rmse_std",
-    "dummy_mae",
-    "dummy_mae_std",
-    "dummy_spearman",
-    "dummy_spearman_std",
-]
 
 BASELINE_FEATURES = ["Discrimination_Factor", "Hydrophobic_Moment"]
 OUTLIER_R2_THRESHOLD: float = -1000.0
