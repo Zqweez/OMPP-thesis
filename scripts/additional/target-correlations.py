@@ -136,7 +136,7 @@ def target_feature_correlations(df: pd.DataFrame, out_dir: Path):
     plt.setp(plt.gca().get_xticklabels(), rotation=45, ha="right", fontsize=7)
     plt.tight_layout()
     plt.suptitle(f"Dendrogram - Spearman", y=1.05)
-    plt.savefig(out_dir / "dendrogram_spearman.pdf", bbox_inches="tight")
+    plt.savefig(out_dir / "dendrogram_spearman.pdf", bbox_inches="tight", transparent=True)
     plt.close()
 
     plt.figure(figsize=(12, 5))
@@ -144,7 +144,7 @@ def target_feature_correlations(df: pd.DataFrame, out_dir: Path):
     plt.setp(plt.gca().get_xticklabels(), rotation=45, ha="right", fontsize=7)
     plt.tight_layout()
     plt.suptitle(f"Dendrogram - Pearson", y=1.05)
-    plt.savefig(out_dir / "dendrogram_pearson.pdf", bbox_inches="tight")
+    plt.savefig(out_dir / "dendrogram_pearson.pdf", bbox_inches="tight", transparent=True)
     plt.close()
 
 

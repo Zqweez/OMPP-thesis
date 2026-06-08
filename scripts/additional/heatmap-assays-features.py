@@ -307,7 +307,7 @@ def _make_heatmap(
     ax_right.tick_params(axis="y", left=False, labelleft=False)
 
     highlight_rows = _get_highlight_rows(table_df.index)
-    if highlight_rows:
+    if highlight_rows and False:
         _apply_row_highlights(ax_left, n_cols=n_assays, row_indices=highlight_rows)
         _apply_row_highlights(ax_right, n_cols=n_desc, row_indices=highlight_rows)
         _highlight_row_labels(ax_left, highlight_rows)

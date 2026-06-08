@@ -1,0 +1,11 @@
+.snakemake/
+.vscode/
+
+outputs/*
+!outputs/.gitkeep
+data/*
+!data/.gitkeep
+!data/APD6/
+
+__pycache__/
+.DS_Store

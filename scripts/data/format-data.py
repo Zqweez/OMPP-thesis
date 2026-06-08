@@ -1,6 +1,6 @@
 import pandas as pd
 
-def format_dataframe(xlsx_path: str = 'data/OMPP_master_dataframe_filtered.xlsx'):
+def format_dataframe(xlsx_path: str = 'data/OMPP_master_dataframe.xlsx'):
     """ Format the raw excel file and calculate mean values for each assay type, then save to a new csv file """
     path = xlsx_path
     df = pd.read_excel(path, sheet_name='OMPP_master_COLORED')

@@ -119,6 +119,10 @@ Note that these scripts are more exploratory and not part of the main pipelines,
 
 - Builds heatmaps of feature ranks across targets using deployment outputs.
 
+`heatmap-assays-features.py`
+
+- Builds a heatmap of assay results and feature values across sequences, to inspect relationships between features and targets.
+
 `target-correlations.py`
 
 - Creates target correlation plots and dendrograms from computed feature tables.

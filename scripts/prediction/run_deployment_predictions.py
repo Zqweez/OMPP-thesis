@@ -76,7 +76,9 @@ def main(
         raise ValueError("Sequence column contains missing values.")
 
     feature_df = compute_features_for_sequences(df=input_df.copy())
-    feature_df.to_csv(Path("outputs/predictions") / f"features_{input_path.stem}.csv", index=False)
+    prediction_output = Path("outputs/predictions")
+    prediction_output.mkdir(parents=True, exist_ok=True)
+    feature_df.to_csv(prediction_output / f"features_{input_path.stem}.csv", index=False)
 
     prediction_df = feature_df[["Sequence"]].copy()
 

@@ -28,6 +28,17 @@ There are two Snakemake pipelines: an evaluation pipeline for unbiased model ass
 
 More in depth documentation for wrapper script used by the pipelines can be found in `scripts/README.md`.
 
+For both pipliens there are bash helper scripts in `bash/` that run the pipelines across multiple targets and with different options. See `bash/README.md` for more details.
+
+### 0) Data formatting
+
+Before running the pipelines, add the data and format it using the script:
+The data to be added should be the .xlsx file from the masterframe, `data/OMPP_master_dataframe.xlsx` and the .pdb files for the sequences in `data/ompp-pdb/`. The formatting script reads the Excel file, computes mean target values for each sequence, and outputs formatted CSV tables used by the pipelines. Run it from the repo root:
+
+```bash
+python scripts/data/format-data.py
+```
+
 ### 1) Evaluation pipeline (nested CV + model comparison)
 
 This pipeline builds full feature tables, creates outer CV splits, runs single/double pyramid feature selection inside each fold, tunes final models with inner CV, and aggregates results.
@@ -103,6 +114,7 @@ python scripts/prediction/analyze_deployment_predictions.py --predictions output
 - PCA: `scripts/additional/make-pca.py` runs PCA on feature tables and saves pairwise PC plots under `outputs/pca/`.
 - PLS: `scripts/additional/run-PLS.py` runs PLS regression with nested CV and Optuna tuning.
 - PDB rendering: `scripts/additional/view-pdbfile.py` uses PyMOL to render `.pdb` files from `data/ompp-pdb/` into `outputs/pdb-view/front-page/`.
+- Heatmap of Assay results with features `scripts/additional/heatmap-assays-features.py` generates a heatmap of assay results and feature values.
 
 ## Project structure
 
